@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React con JSX</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <!-- Aquí React renderizará nuestra aplicación -->
+    <div id="root"></div>
+
+    <!-- 1. Cargar React y ReactDOM desde CDN -->
+    <script type="module">
+        import React from 'https://esm.sh/react?dev'
+        import ReactDOM from 'https://esm.sh/react-dom/client?dev'
+        window.React = React
+        window.ReactDOMClient = ReactDOM
+    </script>
+
+    <!-- 2. ¡NOVEDAD! Cargar Babel para transformar JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        function JobCard({ titulo, empresa, ubicacion, descripcion }) {
+            return (
+                <article className="job-listing-card">
+                    <div>
+
+                        <h3> {titulo}</h3>
+                        <small>{empresa} | {ubicacion}</small>
+                        <p>{descripcion}</p>
+
+                    </div>
+                    <button 
+                        className='button-apply-jpb'
+                        onClick={ () => alert('hola caracola')}    
+                    >
+                        
+                        Aplicar</button>
+                </article>
+
+            )
+        }
+
+
+        function App() {
+            return (
+                <section>
+                    <h2>Empleos disponibles</h2>
+                    <div className="jobs-listings">
+                        <JobCard
+                            titulo="Desarrollador Frontend"
+                            empresa="Tech Solutions Inc."
+                            ubicacion="Remoto"
+                            descripcion="Buscamos un desarrollador frontend con experiencia en React, TypeScript y Tailwind CSS."
+                        />
+                    </div>
+                </section>
+            )
+        }
+
+        window.onload = () => {
+            const rootEl = document.querySelector('#root')
+            const root = ReactDOMClient.createRoot(rootEl)
+            root.render(<App />)
+        }
+    </script>
+</body>
+
+</html>
