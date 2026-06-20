@@ -305,7 +305,8 @@ main>section:nth-child(2) footer {
 
 
 
-select, #tech-checkboxes-container {
+select,
+#tech-checkboxes-container {
   padding: 0.625rem 1.25rem;
   background-color: #242d3a;
   border: 0;
@@ -326,9 +327,10 @@ select, #tech-checkboxes-container {
     outline-offset: 2px;
   }
 }
-select{
+
+select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  
+
   &:hover {
     background-color: var(--primary-hover);
     color: white;
@@ -420,11 +422,23 @@ article {
 }
 
 
-.jobsListings{
+#empleos-search-form {
+  position: relative;
+
+  #buttonSearch {
+    position: absolute;
+    top: 4px;
+    right: 1.3rem;
+  }
+
+}
+
+
+.jobsListings {
   border: 1px solid rgba(255, 255, 255, .3);
   border-radius: 1rem;
 
-  .job-listing-card{
+  .job-listing-card {
     background: none;
     box-shadow: none;
 
@@ -433,39 +447,38 @@ article {
 
     margin: 0;
 
-    
+
     display: flex;
     align-items: start;
     gap: 1rem;
 
-    &.is-hidden{
+    &.is-hidden {
       display: none;
     }
 
-    small{
+    small {
       font-size: 0.875rem;
       opacity: 0.75;
     }
 
-    p{
+    p {
       margin-top: 0.5rem;
     }
 
-    &:last-child{
+    &:last-child {
       border-bottom: none;
     }
   }
-  
+
 }
 
 
 
-.button-apply-job{
-  background:  #09f;
+.button-apply-job {
+  background: #09f;
 
-  &.is-applied{
+  &.is-applied {
     background: #4caf50;
     pointer-events: none;
   }
 }
-
