@@ -14,6 +14,7 @@ const RESOULTS_PER_PAGE = 5
 function App() {
 
     const [filters, setFilters] = useState({
+        search: '',
         technology: '',
         location: '',
         experienceLevel: ''
@@ -24,11 +25,17 @@ function App() {
 
     //filtramos por los filtros que hayya
     const jobsFilteredByFilters = jobsData.filter(job => {
-        return(
+        const matchFilters = (
             (filters.technology === "" || job.data.technology === (filters.technology)) &&
             (filters.location === "" || job.data.modalidad == filters.location) &&
             (filters.experienceLevel === "" || job.data.nivel == filters.experienceLevel)
         )
+
+        const matchText = (
+            filters.search === "" || job.titulo.toLowerCase().includes(filters.search.toLowerCase())
+        )
+
+        return matchFilters && matchText
     })
 
 
@@ -37,7 +44,6 @@ function App() {
         : jobsFilteredByFilters.filter(job => {
             return job.titulo.toLowerCase().includes(textToFilter.toLowerCase())
         })
-
 
     const totalPages = Math.ceil(jobsWithFilter.length / RESOULTS_PER_PAGE)
 
@@ -56,17 +62,19 @@ function App() {
         setCurrentPage(1)
     }
 
+    /*
     const handleTextFilter = (newText) => {
         setTextToFilter(newText)
         setCurrentPage(1)
     }
+        */
 
     return (
         <>
             <Header />
 
             <main>
-                <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} />
+                <SearchFormSection onSearch={handleSearch} /*onTextFilter={handleTextFilter}*/ />
 
                 <section>
 
