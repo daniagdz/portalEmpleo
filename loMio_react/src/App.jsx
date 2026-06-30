@@ -1,93 +1,27 @@
 import Header from './components/Header'
 import Footer from './components/Footer'
-import Pagination from './components/Pagination'
 
-import { JobListings } from './components/JobsListings';
-import jobsData from './data.json';
+import { Route } from './components/Route.jsx';
 
-import { SearchFormSection } from './components/SearchFormSection';
+import { HomePage } from './pages/Home.jsx';
+import { SearchPage } from './pages/Search.jsx';
+import { Contact } from './pages/Contact.jsx';
 
-import { useState } from 'react'
-
-const RESOULTS_PER_PAGE = 5
 
 function App() {
 
-    const [filters, setFilters] = useState({
-        search: '',
-        technology: '',
-        location: '',
-        experienceLevel: ''
-
-    })
-    const [textToFilter, setTextToFilter] = useState('')
-    const [currentPage, setCurrentPage] = useState(1)
-
-    //filtramos por los filtros que hayya
-    const jobsFilteredByFilters = jobsData.filter(job => {
-        const matchFilters = (
-            (filters.technology === "" || job.data.technology === (filters.technology)) &&
-            (filters.location === "" || job.data.modalidad == filters.location) &&
-            (filters.experienceLevel === "" || job.data.nivel == filters.experienceLevel)
-        )
-
-        const matchText = (
-            filters.search === "" || job.titulo.toLowerCase().includes(filters.search.toLowerCase())
-        )
-
-        return matchFilters && matchText
-    })
-
-
-    //filtrado de datos tomando en cuenta el uso de filtros/selecciones del user
-    const jobsWithFilter = textToFilter === "" ? jobsFilteredByFilters
-        : jobsFilteredByFilters.filter(job => {
-            return job.titulo.toLowerCase().includes(textToFilter.toLowerCase())
-        })
-
-    const totalPages = Math.ceil(jobsWithFilter.length / RESOULTS_PER_PAGE)
-
-
-    //paginacion teniendo en cuenta el filtrado de datos
-    const pageResoults = jobsWithFilter.slice((currentPage - 1) * RESOULTS_PER_PAGE, currentPage * RESOULTS_PER_PAGE)
-
-    const handlePageChange = (page) => {
-        console.log('current page: ', page)
-        setCurrentPage(page);
-    }
-
-
-    const handleSearch = (filters) => {
-        setFilters(filters)
-        setCurrentPage(1)
-    }
-
-    /*
-    const handleTextFilter = (newText) => {
-        setTextToFilter(newText)
-        setCurrentPage(1)
-    }
-        */
 
     return (
         <>
             <Header />
 
-            <main>
-                <SearchFormSection onSearch={handleSearch} /*onTextFilter={handleTextFilter}*/ />
-
-                <section>
-
-                    <JobListings jobs={pageResoults} />
-
-                    <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={setCurrentPage}
-
-                    />
-                </section>
-            </main>
+            {/* 
+            Inclusion del component Route que en funcion del 'path establecido 
+                nos lleva a una pagina
+            */}
+            <Route path ="/" component={HomePage} />
+            <Route path="/search" component={SearchPage} />
+            <Route path="/contact" component={Contact} />
 
             <Footer />
         </>
