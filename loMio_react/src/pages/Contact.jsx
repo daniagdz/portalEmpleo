@@ -1,10 +1,11 @@
 import { useRouter } from "../hooks/useRouter";
+import { ContactForm } from "../components/ContactForm";
 
 export function Contact() {
 
     return (
         <>
-            <h2>CONTACTOOOOOOS</h2>
+            <ContactForm />
         </>
     )
 

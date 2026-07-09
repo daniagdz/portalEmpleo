@@ -1,5 +1,9 @@
 import { useRouter } from "../hooks/useRouter";
 
+/*
+Escucha el clic del usuario, detiene la recarga de la página 
+y avisa que queremos cambiar de ruta.
+*/
 export function Link({href, children, ...restOfProps}){
 
     const {navigateTo} = useRouter()
