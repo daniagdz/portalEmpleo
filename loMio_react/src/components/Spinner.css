@@ -1,0 +1,35 @@
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  width: 100%;
+}
+
+/* Este es el círculo animado */
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #e5e7eb; /* Color del aro base (gris claro) */
+  border-top-color: #2563eb; /* Color de la parte animada (azul) */
+  border-radius: 50%; /* Lo hace circular */
+  animation: spin 0.8s linear infinite; /* Hace que gire sin parar */
+}
+
+/* Animación de rotación */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-text {
+  margin-top: 1rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+  font-weight: 500;
+}

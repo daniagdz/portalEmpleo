@@ -1,40 +1,17 @@
-import { useRouter } from "../hooks/useRouter";
+import { Link as NavLink } from 'react-router'
 
-/*
-Escucha el clic del usuario, detiene la recarga de la página 
-y avisa que queremos cambiar de ruta.
-*/
-export function Link({href, children, ...restOfProps}){
+export function Link ({ href, children, ...restOfProps }) {
 
-    const {navigateTo} = useRouter()
+    //ABSTRACTION PATTERN
 
-    const handleClick = (ev) =>{
-        ev.preventDefault();
-
-        // estado/datos, titulo, url a reflejar
-        //window.history.pushState({}, '', href)
-
-        //const navigationEvent = new PopStateEvent('popstate')
-        //enviamos un eveneto que indica que ocurre algo en el historial
-        //window.dispatchEvent(navigationEvent)
-
-        navigateTo(href)
-
-    }
-
-    return (
-        <a href={href} {...restOfProps} onClick={handleClick}>
-            {children}
-        </a>
-    )
+    /*
+    Si cambiamos react-router a futuro por otra dependencia podremos cambiar
+        únicamente el componente (Link) en un lugar (aqui) y que se actualice en todos
+        los sitios donde se usa
+    */
+   return (
+    <NavLink to={href} {...restOfProps}>
+      {children}
+    </NavLink>
+  )
 }
-
-/*
-el user clica en un Link, 
-se ejecuta el component, 
-con el pushstate se cambia la url y se crea el evento popstate. 
-Entonces, desde app, como se habia ejecutado el popstate, 
-el useEffect lo detecta y ejecuta el handleLocationChange para movernos 
-de pagina
-
-*/

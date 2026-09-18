@@ -1,13 +1,23 @@
-import { useId, useState } from "react"
+import { useId, useState, useRef } from "react"
+
 
 //Hook que implementa lógica de filtrado
-const useSearchForm = ({ idText, idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter}) => {
+const useSearchForm = ({ idText, idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter, onClearFilters}) => {
     
     const [searchText, setSearchText] = useState('')
+    //valor persistente entre renderizados, que una segunda vez modificado no renderiza de nuevo
+    const timeoutId = useRef(null)
+
     const handleSumbit = (e) => {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
+
+        //si el evento (e) proviene del "form escrito" lo ignormaos
+        //evitamos ejecucion no deseada al cambiar filtros o no darle a enter
+        if(e.target.name === idText){
+            return
+        }
 
         const filters = {
             search: formData.get(idText),
@@ -24,21 +34,44 @@ const useSearchForm = ({ idText, idTechnology, idLocation, idExperienceLevel, on
 
     const handleChangeText = (e) => {
         const text = e.target.value
-        setSearchText(text)
-        onTextFilter(text)
+        setSearchText(text) //update del input
+
+        //si existe un timeout se elimina para generar luego uno "desde 0" y no acumular peticiones
+        if(timeoutId.current){
+            clearTimeout(timeoutId.current)
+        }
+        //DEBOUNCE: cancelar el timeout previo y crea el nuevo -> generamos cola donde solo hay 1 timeout
+        timeoutId.current = setTimeout( () =>{
+            onTextFilter(text)
+        }, 300)
+        
     }
+
+    const handleReset = (e) =>{
+        setSearchText('')
+        
+        if(e.target.form){
+            e.target.form.reset()
+        }
+
+        if(onClearFilters){
+            onClearFilters();
+        }
+    }
+
 
     return{
         searchText,
         handleSumbit,
-        handleChangeText
+        handleChangeText,
+        handleReset
     }
 }
 
 
 
 
-export function SearchFormSection({ onSearch, onTextFilter }) {
+export function SearchFormSection({ onSearch, onTextFilter, isFiltered, onClearFilters, initialFilters ={} }) {
 
 
     //Esto son 'HOOKs'. Se encargan de generar un identificador unico
@@ -50,9 +83,11 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
     //pasamos valores al hook de filtrado
     const {
 
+        searchText,
         handleSumbit, 
-        handleChangeText
-    } = useSearchForm({idText, idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter})
+        handleChangeText,
+        handleReset
+    } = useSearchForm({idText, idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter, onClearFilters})
 
 
     return (
@@ -71,9 +106,12 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
                             <path d="M21 21l-6 -6" />
                         </svg>
 
-                        <input name={idText} id="empleos-search-input" type="text"
+                        <input 
+                            name={idText} id="empleos-search-input" 
+                            type="text"
                             placeholder="Buscar trabajos, empresas o habilidades"
                             onChange={handleChangeText}
+                            defaultValue={initialFilters.search}
                         />
                     </div>
 
@@ -105,8 +143,19 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
                             <option value="senior">Senior</option>
                             <option value="lead">Lead</option>
                         </select>
-                    </div>
 
+                        {
+                            isFiltered && (
+                            <button
+                                type="button"
+                                onClick={handleReset}
+                                className="btn-clear-filter"
+                            >
+                                Limpiar filtros
+                            </button>
+                            )
+                        }
+                    </div>
                 </form>
 
                 <span id="filter-selected-value"></span>

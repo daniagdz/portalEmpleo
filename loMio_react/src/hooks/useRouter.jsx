@@ -1,35 +1,19 @@
-import { useEffect, useState } from 'react'
 
-/*
-ambia la URL en la barra de direcciones del navegador de forma 
-silenciosa y emite un evento global (popstate) para avisar a toda la aplicación.
-*/
+import { useNavigate, useLocation } from 'react-router'
+
 export function useRouter() {
-    const [ currentPath, setCurrentPath] = useState(window.location.pathname)
 
-    useEffect(() => {
-        const handleLocationChange = () => {
-            setCurrentPath(window.location.pathname)
-        }
-        window.addEventListener('popstate', handleLocationChange)
-
-        return () => {
-            window.removeEventListener('popstate', handleLocationChange)
-        }
-    }, [])
+    const navigate = useNavigate()
+    const location = useLocation()
+    const currentPath = location.pathname
 
     function navigateTo(path){
-        // estado/datos, titulo, url a reflejar -> actualizamos barra navegacion web
-        window.history.pushState({}, '', path)
-        
-        window.dispatchEvent(new PopStateEvent('popstate'))
+        navigate(path)
     }
-
 
     return {
         currentPath,
         navigateTo
-
     }
 
 }

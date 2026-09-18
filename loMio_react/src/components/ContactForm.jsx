@@ -13,12 +13,14 @@ export function ContactForm() {
 
     return (
         <>
+
+            {isSubmitted && (
+                <div className="validateMess">
+                    ¡Formulario enviado con éxito! Nos pondremos en contacto pronto.
+                </div>
+            )}
             <div className="contactContent">
-                {isSubmitted && (
-                    <div style={{ color: '#4caf50', marginBottom: '1rem', fontWeight: 'bold' }}>
-                        ¡Formulario enviado con éxito! Nos pondremos en contacto pronto.
-                    </div>
-                )}
+
 
                 <form id="contForm" onSubmit={handleSubmit}>
 
@@ -33,7 +35,6 @@ export function ContactForm() {
                         value={formValues.nameU}
                         onChange={handleChange}
                     />
-                    {/* Mostramos el error específico debajo del input si existe */}
 
                     <p>Apellidos:
                         {errors.surnameU && <span className='errorFormSty'>{errors.surnameU}</span>}

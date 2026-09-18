@@ -9,7 +9,7 @@ Cona la sintaxis 'component: Component' hacemos rename del parametro a un
 Escucha ese evento global, revisa si su path coincide con la nueva URL y, 
 si es así, renderiza su componente (como Contact o SearchPage)
 */
-export function Route({path, component: Component }){
+export function Route({path, element }){
         
     const {currentPath} = useRouter()
         
@@ -17,5 +17,5 @@ export function Route({path, component: Component }){
         return null
     }
 
-    return <Component />
+    return element
 }

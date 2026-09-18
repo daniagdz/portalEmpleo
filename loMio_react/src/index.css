@@ -523,14 +523,23 @@ article {
     margin-bottom: 1rem;
   }
 
-  #sendId{
+  #sendId {
     margin-top: 0.9rem;
   }
 
 }
 
-.errorFormSty{
+.errorFormSty {
   color: #ff6b6b;
   font-size: 0.85rem;
 }
 
+.validateMess {
+  color: #4caf50;
+  margin-bottom: '1rem';
+  font-weight: 'bold';
+
+  text-align: center;
+  width: 100%;
+  padding: 1rem;
+}

@@ -35,9 +35,15 @@ function Pagination({currentPage = 1, totalPages =5, onPageChange}) {
         cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
     }
 
+    const buildPageUrl = (page) =>{
+        const url = new URL(window.location)
+        url.searchParams.set('page', page)
+        return `${url.pathname}?${url.searchParams.toString()}`
+    }
+
     return (
         <nav className={styles.pagination}> {/*traemos la clase '.pagination' del module.css */}
-            <a  href="#" 
+            <a  href={buildPageUrl(currentPage-1)} 
                 onClick={handlePrevious}
                 style={styleLinkLeft}>
                 
@@ -53,7 +59,8 @@ function Pagination({currentPage = 1, totalPages =5, onPageChange}) {
             {pages.map(page => (
                 <a 
                     key={page}
-                    href="#"
+                    data-page={page}
+                    href={buildPageUrl(page)}
                     onClick={(e) => handlePageClick(e, page)}
                     className= {currentPage === page ? styles.isActive : ""}
                 >
@@ -62,10 +69,10 @@ function Pagination({currentPage = 1, totalPages =5, onPageChange}) {
 
             ))}
 
-            <a href="#" onClick={handleNext} style={styleLinkRight}>
+            <a href={buildPageUrl(currentPage+1)} onClick={handleNext} style={styleLinkRight}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
+                className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M9 6l6 6l-6 6" />
                 </svg>
