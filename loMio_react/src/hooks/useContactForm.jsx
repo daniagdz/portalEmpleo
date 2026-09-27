@@ -30,7 +30,7 @@ export function useContactForm() {
             [name]: value
         })
 
-        if (error[name]) {
+        if (errors[name]) {
             setErrors({
                 ...errors,
                 [name]: ''

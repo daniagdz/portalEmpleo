@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { Link } from './Link.jsx'
+//import { NavLink } from 'react-router';
+import { NavLink } from './NavLink.jsx';
 
 function Header() {
     return (
@@ -17,9 +19,24 @@ function Header() {
             </Link>
 
             <nav>
-                <Link href="/">Inicio</Link>
-                <Link href='/search'>Empleos</Link>
-                <Link href="/contact">Contacto</Link>
+                <NavLink 
+                    to='/'
+                    className={( {isActive }) => isActive ? 'nav-link-active' : ""} 
+                    >
+                        Inicio
+                </NavLink>
+                <NavLink 
+                    to='/search'
+                    className={( {isActive }) => isActive ? 'nav-link-active' : ""} 
+                >
+                    Empleos
+                </NavLink>
+                <NavLink 
+                    to='/contact'
+                    className={( {isActive }) => isActive ? 'nav-link-active' : ""} 
+                >
+                    Contacto
+                </NavLink>
             </nav>
 
             <div>

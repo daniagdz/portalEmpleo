@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router'
+import { useSearchParams } from 'react-router' //leer y mod parametros de búsqueda sin recargar toda la pág
 
 import Pagination from '../components/Pagination'
 import { SearchFormSection } from '../components/SearchFormSection';
@@ -43,6 +43,10 @@ const getErrorMessage = (error, response) => {
 const useFilters = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
+    /*
+    Estamos creando un objeto formado por pares clave-valor
+    clave: valor -> search: searchParams.get('search') || ''
+    */
     const [filters, setFilters] = useState(() => {
         return {
             search: searchParams.get('search') || '',
@@ -57,7 +61,8 @@ const useFilters = () => {
 
     const [currentPage, setCurrentPage] = useState(() => {
         const page = Number(searchParams.get('page'))
-        return Number.isNaN(page) ? page : 1
+
+        return  Number.isNaN(page) ? page : 1
     })
 
     const[jobs, setJobs] = useState([])
@@ -100,6 +105,8 @@ const useFilters = () => {
     }, [filters, textToFilter, currentPage])
 
     // Sincroniza los filtros con la URL usando setSearchParams (estable, no provoca bucles)
+    //'.set' -> actualizar los parametros
+    // '.append' -> cuando quieres varios valores para la misma clave
     useEffect(() => {
         setSearchParams(() => {
             const params = new URLSearchParams()
@@ -146,7 +153,7 @@ const useFilters = () => {
 
     //filtramos por los filtros que haya
     /*
-    evaluamos cada objeto del json 
+    evaluamos cada objeto del json con una condicion (a través del método 'filter')
     si se cumplen las condiciones, con '.filter' añadimos ese objeto al array 'jobsFilteredByFilters'
     */
     //const jobsFilteredByFilters = jobsData.filter(job => {
@@ -171,7 +178,8 @@ const useFilters = () => {
             return job.titulo.toLowerCase().includes(textToFilter.toLowerCase())
         })
 
-    const totalPages = Math.ceil(jobsWithFilter.length / RESOULTS_PER_PAGE)
+    const totalPages = Math.max(1, Math.ceil(jobsWithFilter.length / RESOULTS_PER_PAGE))
+
 
 
     //paginacion teniendo en cuenta el filtrado de datos
@@ -214,7 +222,7 @@ const useFilters = () => {
 }
 
 
-export function SearchPage() {
+export default function SearchPage() {
 
     const {
         filters,
@@ -266,7 +274,7 @@ export function SearchPage() {
                     </div>
                 )}
                 
-                {!loading && !error && 
+                {!loading && !error &&
                     (<>
                         <JobListings jobs={pageResoults} />
 

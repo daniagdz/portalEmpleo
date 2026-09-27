@@ -1,13 +1,13 @@
 import { useRouter } from "../hooks/useRouter"
 
-export function HomePage() {
+export default function HomePage() {
 
     const {navigateTo} = useRouter()
 
     const handleSearch = (ev) =>{
         ev.preventDefault()
 
-        const formData = new FormData(event.target)
+        const formData = new FormData(ev.target)
         const searchTerm = formData.get('search')
 
         const uri = searchTerm ? `/search?text=${encodeURIComponent(searchTerm)}`

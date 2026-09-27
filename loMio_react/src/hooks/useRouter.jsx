@@ -1,6 +1,10 @@
 
 import { useNavigate, useLocation } from 'react-router'
 
+/*
+Con currentPath obtenemos de la url de la web el valor -> '/search'
+
+*/
 export function useRouter() {
 
     const navigate = useNavigate()
